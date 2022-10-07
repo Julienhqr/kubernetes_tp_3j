@@ -13,16 +13,16 @@ export class AppService {
     const writer = fs.createWriteStream('./images/image.png');
 
     const response = await this.httpService.axiosRef({
-        url: 'https://www.nautiljon.com/images/perso/00/20/gon_freecss_12702.jpg',
-        method: 'GET',
-        responseType: 'stream',
+      url: 'https://thispersondoesnotexist.com/image',
+      method: 'GET',
+      responseType: 'stream',
     });
 
     response.data.pipe(writer);
 
     return new Promise((resolve, reject) => {
-        writer.on('finish', resolve);
-        writer.on('error', reject);
+      writer.on('finish', resolve);
+      writer.on('error', reject);
     });
-}
+  }
 }
