@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  labels:
+    app: generatorPhoto
+spec:
+  ports:
+    - port: 6379
+  selector:
+    app: generatorPhoto 
+    tier: redis
+  # clusterIP: None
+  type: ClusterIP
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis 
+  labels:
+    app: generatorPhoto
+spec:
+  selector:
+    matchLabels:
+      app: generatorPhoto
+      tier: redis
+  strategy:
+    type: Recreate
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: generatorPhoto
+        tier: redis
+    spec:
+      containers:
+      - image: redis:latest
+        name: generatorPhoto
+        ports:
+        - containerPort: 6379
+          name: generatorPhoto

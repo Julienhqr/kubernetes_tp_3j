@@ -1,0 +1,5 @@
+resources:
+    - backend-deployement.yaml
+    - front-deployement.yaml
+    - redis.yaml
+    - ingress.yaml

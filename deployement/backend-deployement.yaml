@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dnphoto
+  labels:
+    app: generatorPhoto
+spec:
+  ports:
+    - port: 8080
+  selector:
+    app: generatorPhoto 
+    tier: dnphoto
+  # clusterIP: None
+  type: ClusterIP
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dnphoto 
+  labels:
+    app: generatorPhoto
+spec:
+  selector:
+    matchLabels:
+      app: generatorPhoto
+      tier: dnphoto
+  strategy:
+    type: Recreate
+  replicas: 5
+  template:
+    metadata:
+      labels:
+        app: generatorPhoto
+        tier: dnphoto
+    spec:
+      containers:
+      - image: jhitescia/api-nest-kube:latest
+        name: dnphoto
+        ports:
+        - containerPort: 8080
+          name: generatorPhoto
