@@ -33,6 +33,9 @@ jobs:
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 'backend/api-nestjs'
     environment: production
     steps:
 
