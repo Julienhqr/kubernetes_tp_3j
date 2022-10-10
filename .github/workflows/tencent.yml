@@ -58,7 +58,6 @@ jobs:
         secret_id: ${{ secrets.TENCENT_CLOUD_SECRET_ID }}
         secret_key: ${{ secrets.TENCENT_CLOUD_SECRET_KEY }}
         tke_region: ${{ env.TKE_REGION }}
-        cluster_id: ${{ env.TKE_CLUSTER_ID }}
     
     - name: Switch to TKE context
       run: |
