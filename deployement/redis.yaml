@@ -3,12 +3,12 @@ kind: Service
 metadata:
   name: redis
   labels:
-    app: generatorPhoto
+    app: generator-photo
 spec:
   ports:
     - port: 6379
   selector:
-    app: generatorPhoto 
+    app: generator-photo 
     tier: redis
   # clusterIP: None
   type: ClusterIP
@@ -19,11 +19,11 @@ kind: Deployment
 metadata:
   name: redis 
   labels:
-    app: generatorPhoto
+    app: generator-photo
 spec:
   selector:
     matchLabels:
-      app: generatorPhoto
+      app: generator-photo
       tier: redis
   strategy:
     type: Recreate
@@ -31,12 +31,12 @@ spec:
   template:
     metadata:
       labels:
-        app: generatorPhoto
+        app: generator-photo
         tier: redis
     spec:
       containers:
       - image: redis:latest
-        name: generatorPhoto
+        name: generator-photo
         ports:
         - containerPort: 6379
-          name: generatorPhoto
+          name: generator-photo

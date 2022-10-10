@@ -3,12 +3,12 @@ kind: Service
 metadata:
   name: dnphoto
   labels:
-    app: generatorPhoto
+    app: generator-photo
 spec:
   ports:
     - port: 8080
   selector:
-    app: generatorPhoto 
+    app: generator-photo 
     tier: dnphoto
   # clusterIP: None
   type: ClusterIP
@@ -19,11 +19,11 @@ kind: Deployment
 metadata:
   name: dnphoto 
   labels:
-    app: generatorPhoto
+    app: generator-photo
 spec:
   selector:
     matchLabels:
-      app: generatorPhoto
+      app: generator-photo
       tier: dnphoto
   strategy:
     type: Recreate
@@ -31,7 +31,7 @@ spec:
   template:
     metadata:
       labels:
-        app: generatorPhoto
+        app: generator-photo
         tier: dnphoto
     spec:
       containers:
@@ -39,4 +39,4 @@ spec:
         name: dnphoto
         ports:
         - containerPort: 8080
-          name: generatorPhoto
+          name: generator-photo

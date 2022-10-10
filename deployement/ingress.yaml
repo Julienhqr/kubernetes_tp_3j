@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress 
@@ -9,6 +9,9 @@ spec:
   - http:
       paths:
         - path: /deployement
+          pathType: Prefix
           backend:
-            serviceName: generatorPhoto
-            servicePort: 5000
+            service:
+              name: generator-photo
+              port:
+                number: 5000
