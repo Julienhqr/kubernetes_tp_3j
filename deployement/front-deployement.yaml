@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: front-deploy
+  labels:
+    app: generator-photo
+spec:
+  ports:
+    - port: 8080
+  selector:
+    app: generator-photo
+    tier: front-deploy
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-deploy
+  labels:
+    app: generator-photo
+spec:
+  selector:
+    matchLabels:
+      app: generator-photo
+      tier: front-deploy
+  strategy:
+    type: Recreate
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: generator-photo
+        tier: front-deploy
+    spec:
+      containers:
+        - image: jhitescia/front-vuejs:latest
+          imagePullPolicy: Always
+          name: front-deploy
+          env:
+            - name: CONTEXT
+              value: DEV
+          ports:
+            - containerPort: 8080
+              name: front-deploy
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "50Mi"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 5
+            timeoutSeconds: 1
+            periodSeconds: 10
+            failureThreshold: 3

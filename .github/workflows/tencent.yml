@@ -24,7 +24,7 @@ env:
   TKE_IMAGE_URL: ccr.ccs.tencentyun.com/demo/mywebapp
   TKE_REGION: ap-guangzhou
   TKE_CLUSTER_ID: cls-mywebapp
-  DEPLOYMENT_NAME: tke-test
+  DEPLOYMENT_NAME: tke-tets
 
 permissions:
   contents: read
@@ -33,47 +33,23 @@ jobs:
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 'backend/api-nestjs'
     environment: production
     steps:
 
     - name: Checkout
       uses: actions/checkout@v3
       
-    # Build
-    - name: Build Docker image
-      run: |        
-        docker build -t ${TKE_IMAGE_URL}:${GITHUB_SHA} .
-
-    - name: Login TKE Registry
-      run: |
-        docker login -u ${{ secrets.TENCENT_CLOUD_ACCOUNT_ID }} -p '${{ secrets.TKE_REGISTRY_PASSWORD }}' ${TKE_IMAGE_URL}
-
-    # Push the Docker image to TKE Registry
-    - name: Publish
-      run: |
-        docker push ${TKE_IMAGE_URL}:${GITHUB_SHA}
-
-    - name: Set up Kustomize
-      run: |
-        curl -o kustomize --location https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
-        chmod u+x ./kustomize
-
-    - name: Set up ~/.kube/config for connecting TKE cluster
-      uses: TencentCloud/tke-cluster-credential-action@v1
+    - uses: docker/login-action@v2
+      name: Login to Docker Hub
       with:
-        secret_id: ${{ secrets.TENCENT_CLOUD_SECRET_ID }}
-        secret_key: ${{ secrets.TENCENT_CLOUD_SECRET_KEY }}
-        tke_region: ${{ env.TKE_REGION }}
-        cluster_id: ${{ env.TKE_CLUSTER_ID }}
-    
-    - name: Switch to TKE context
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      
+    - name: build and push image
       run: |
-        kubectl config use-context ${TKE_CLUSTER_ID}-context-default
-
-    # Deploy the Docker image to the TKE cluster
-    - name: Deploy
-      run: |
-        ./kustomize edit set image ${TKE_IMAGE_URL}:${GITHUB_SHA}
-        ./kustomize build . | kubectl apply -f -
-        kubectl rollout status deployment/${DEPLOYMENT_NAME}
-        kubectl get services -o wide
+        docker build -t api-nest-kube .
+        docker image tag api-nest-kube ${{ secrets.DOCKERHUB_USERNAME }}/api-nest-kube
+        docker image push ${{ secrets.DOCKERHUB_USERNAME }}/api-nest-kube

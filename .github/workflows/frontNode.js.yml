@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: 'backend/api-nestjs'
+        working-directory: 'frontend'
 
     strategy:
       matrix:
@@ -33,3 +33,18 @@ jobs:
     - run: npm install
     - run: npm ci
     - run: npm run build --if-present
+    
+    - name: Checkout
+      uses: actions/checkout@v3
+      
+    - uses: docker/login-action@v2
+      name: Login to Docker Hub
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      
+    - name: build and push image
+      run: |
+        docker build -t api-nest-kube .
+        docker image tag api-nest-kube ${{ secrets.DOCKERHUB_USERNAME }}/api-nest-kube
+        docker image push ${{ secrets.DOCKERHUB_USERNAME }}/api-nest-kube
