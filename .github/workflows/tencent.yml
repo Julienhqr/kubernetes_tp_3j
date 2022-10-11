@@ -46,5 +46,5 @@ jobs:
     - name: Build Docker image and push on DockerHub
       run: |        
         docker build -t api-nest-kube .
-        docker image tag api-nest-kube <mathieusoufflard>/api-nest-kube
-        docker image push <mathieusoufflard>/api-nest-kube
+        docker image tag api-nest-kube mathieusoufflard/api-nest-kube
+        docker image push mathieusoufflard/api-nest-kube
