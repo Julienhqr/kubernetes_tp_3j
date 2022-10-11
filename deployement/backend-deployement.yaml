@@ -6,9 +6,9 @@ metadata:
     app: generator-photo
 spec:
   ports:
-    - port: 8080
+    - port: 5000
   selector:
-    app: generator-photo 
+    app: generator-photo
     tier: dnphoto
   # clusterIP: None
   type: ClusterIP
@@ -17,7 +17,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dnphoto 
+  name: dnphoto
   labels:
     app: generator-photo
 spec:
@@ -35,8 +35,8 @@ spec:
         tier: dnphoto
     spec:
       containers:
-      - image: jhitescia/api-nest-kube:latest
-        name: dnphoto
-        ports:
-        - containerPort: 8080
-          name: generator-photo
+        - image: jhitescia/api-nest-kube:latest
+          name: dnphoto
+          ports:
+            - containerPort: 5000
+              name: generator-photo

@@ -6,16 +6,16 @@ metadata:
     app: generator-photo
 spec:
   ports:
-    - port: 5000
+    - port: 8080
   selector:
-    app: generator-photo 
+    app: generator-photo
     tier: front-deploy
   type: LoadBalancer
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: front-deploy 
+  name: front-deploy
   labels:
     app: generator-photo
 spec:
@@ -33,25 +33,23 @@ spec:
         tier: front-deploy
     spec:
       containers:
-      - image: jhitescia/front-vuejs:latest
-        name: front-deploy
-        env:
-        - name: CONTEXT
-          value: DEV
-        ports:
-        - containerPort: 5000
+        - image: jhitescia/front-vuejs:latest
           name: front-deploy
-        resources:
-          requests:
-            cpu: "100m"
-            memory: "50Mi"
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 5000
-          initialDelaySeconds: 5
-          timeoutSeconds: 1
-          periodSeconds: 10
-          failureThreshold: 3
-
-
+          env:
+            - name: CONTEXT
+              value: DEV
+          ports:
+            - containerPort: 8080
+              name: front-deploy
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "50Mi"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 5
+            timeoutSeconds: 1
+            periodSeconds: 10
+            failureThreshold: 3
