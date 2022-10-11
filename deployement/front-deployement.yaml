@@ -34,6 +34,7 @@ spec:
     spec:
       containers:
         - image: jhitescia/front-vuejs:latest
+          imagePullPolicy: Always
           name: front-deploy
           env:
             - name: CONTEXT

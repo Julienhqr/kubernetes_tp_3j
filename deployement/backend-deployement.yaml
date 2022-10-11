@@ -6,7 +6,7 @@ metadata:
     app: generator-photo
 spec:
   ports:
-    - port: 5000
+    - port: 3000
   selector:
     app: generator-photo
     tier: dnphoto
@@ -36,7 +36,8 @@ spec:
     spec:
       containers:
         - image: jhitescia/api-nest-kube:latest
+          imagePullPolicy: Always
           name: dnphoto
           ports:
-            - containerPort: 5000
+            - containerPort: 3000
               name: generator-photo
