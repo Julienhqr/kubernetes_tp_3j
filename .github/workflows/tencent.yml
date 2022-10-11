@@ -49,6 +49,5 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
       
     # Build
-    - name: Build Docker image and push on DockerHub
-      run: |
-        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - name: login on docker hub
+      run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
