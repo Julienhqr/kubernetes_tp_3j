@@ -43,6 +43,8 @@ jobs:
       uses: actions/checkout@v3
       
     # Build
-    - name: Build Docker image
+    - name: Build Docker image and push on DockerHub
       run: |        
-        docker build -t ${TKE_IMAGE_URL}:${GITHUB_SHA} .
+        docker build -t api-nest-kube .
+        docker image tag api-nest-kube <mathieusoufflard>/api-nest-kube
+        docker image push <mathieusoufflard>/api-nest-kube
