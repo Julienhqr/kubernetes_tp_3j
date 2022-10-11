@@ -13,7 +13,7 @@ export default {
 <template>
   <CCard style="width: 30rem">
     <CCardBody>
-      <CCardImage orientation="top" src="https://thispersondoesnotexist.com/image"></CCardImage>
+      <CCardImage orientation="top" src="http://localhost:3000/image"></CCardImage>
       <CCardText>As Naruto was born, his home village of Konoha came under
         attack by a nine-tailed fox demon which was sealed in him at
         infancy to protect the people of the village. Due to this fact
