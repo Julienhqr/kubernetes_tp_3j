@@ -51,5 +51,5 @@ jobs:
     - name: build and push image
       run: |
         docker build -t api-nest-kube .
-        docker image tag api-nest-kube $username/api-nest-kube
-        docker image push $username/api-nest-kube
+        docker image tag api-nest-kube ${{ secrets.DOCKERHUB_USERNAME }}/api-nest-kube
+        docker image push ${{ secrets.DOCKERHUB_USERNAME }}/api-nest-kube
